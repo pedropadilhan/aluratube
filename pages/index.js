@@ -1,26 +1,24 @@
 import React from "react";
 import config from "../config.json";
 import styled from "styled-components";
-import { CSSReset } from "../src/components/CSSReset";
 import Menu from "../src/components/Menu";
 import { StyledTimeline } from "../src/Timeline";
 
 function HomePage() {
-  const estiloDaHomePage = {
-    // backgroundColor: "red" 
-  };
   const [valorDoFiltro, setValorDoFiltro] = React.useState("");
-
-  // console.log(config.playlists);
-
 
   return (
     <>
-      <CSSReset />
-      <div style={estiloDaHomePage}>
+      <div style={{
+        display: "flex",
+        flexDirection: "column",
+        flex: 1
+      }}>
+        {/* Prop Drilling */}
         <Menu valorDoFiltro={valorDoFiltro} setValorDoFiltro={setValorDoFiltro} />
         <Header />
-        <Timeline searchValue={valorDoFiltro} playlists={config.playlists} />
+        <Timeline searchValue={valorDoFiltro} playlists={config.playlists}>
+          Conteúdo</Timeline>
       </div>
     </>
   );
@@ -39,6 +37,9 @@ export default HomePage
 
 
 const StyledHeader = styled.div`
+
+    background-color: ${({ theme}) => theme.backgroundLevel1};
+
     img {
       width:80px;
       height: 80px;
@@ -61,12 +62,18 @@ const StyledBanner = styled.div`
 function Header() {
   return (
     <StyledHeader>
-      <StyledBanner/>
-
+      <StyledBanner />
       <section className="user-info">
         <img src={`https://github.com/${config.github}.png`} />
-        <h2>{config.name}</h2>
-        <p>{config.job}</p>
+
+        <div>
+          <h2>
+            {config.name}
+            </h2>
+          <p>
+            {config.job}
+            </p>
+        </div>
       </section>
     </StyledHeader>
   )
@@ -80,8 +87,6 @@ function Timeline({ searchValue, ...propriedades }) {
     <StyledTimeline>
       {playlistNames.map((playlistNames) => {
         const videos = propriedades.playlists[playlistNames];
-        //console.log(playlistNames)
-        //console.log(videos);
         return (
           <section key={playlistNames}>
             <h2>{playlistNames}</h2>
